@@ -4,6 +4,7 @@ import com.finproj.banking_application.Entity.User;
 import com.finproj.banking_application.Repository.UserRepository;
 import com.finproj.banking_application.Utils.AccountUtils;
 import com.finproj.banking_application.dto.AccountInfo;
+import com.finproj.banking_application.dto.EmailDetails;
 import com.finproj.banking_application.dto.UserRequest;
 import com.finproj.banking_application.dto.BankResponse;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,11 @@ import java.math.BigDecimal;
 @Service
 public class UserService implements UserServiceInterface {
     final UserRepository userRepository;
+    final EmailService emailService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, EmailService emailService) {
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -45,6 +48,14 @@ public class UserService implements UserServiceInterface {
                 .build();
 
         User savedUser = userRepository.save(newUser);
+//        Send Email alert
+        EmailDetails emailDetails = new EmailDetails.Builder()
+                .recipient(savedUser.getEmail())
+                .subject("Account Creation")
+                .body("Congratulations Your account has been successfully created!")
+                .build();
+
+        emailService.sendAlertEmail(emailDetails);
         return new BankResponse.Builder()
                 .responseCode(AccountUtils.ACCOUNT_CREATION_SUCCESS_CODE)
                 .responseMessage(AccountUtils.ACCOUNT_CREATION_SUCCESS_MESSAGE)
