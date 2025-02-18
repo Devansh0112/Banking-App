@@ -1,12 +1,3 @@
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
-
-# give me a readme.md file
-
----
-Here’s a **`README.md`** file template for your banking application project. It provides an overview of the project, setup instructions, and how to contribute.
-
----
-
 # **Banking Application**
 
 A full-stack banking application built with **Spring Boot** (Java) for the backend, **MySQL** as the database, and **React** for the frontend. This application allows users to manage bank accounts, perform transactions, and view transaction histories.
